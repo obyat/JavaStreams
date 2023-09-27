@@ -9,31 +9,77 @@ import com.pluralsight.streamslambdas.ExampleData;
 import com.pluralsight.streamslambdas.Product;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+
+abstract interface findCheap {
+    boolean find(Product product);
+}
+
+abstract interface accumulateCheap {
+    boolean filter(Product product);
+}
 
 public class LambdasExample04 {
 
     public static void main(String[] args) {
         List<Product> products = ExampleData.getProducts();
+        BigDecimal priceLimit = new BigDecimal("3.0");
+        System.out.printf("Method: There are %d cheap products%n", getCountCheapProducts(products, priceLimit));
 
-        BigDecimal priceLimit = new BigDecimal("5.00");
+        findCheap find = (product) -> product.getPrice().compareTo(priceLimit) < 0;
+        System.out.printf("Lambda: There are %d cheap products%n", getCountCheapProducts2(products, find));
 
-        int numberOfCheapProducts = 0;
+        accumulateCheap add = (product) -> product.getPrice().compareTo(priceLimit) < 0;
+        System.out.println("List of cheap products:" + accumulateCheapProducts(products, add));
 
-        // Check if there are cheap products.
+        accumulateCheapProductsForEach(products, add);
+    }
+
+    // method
+    private static int getCountCheapProducts(List<Product> products, BigDecimal priceLimit) {
+        int cheapProductCount = 0;
         for (Product product : products) {
             if (product.getPrice().compareTo(priceLimit) < 0) {
-                numberOfCheapProducts++;
+                cheapProductCount++;
             }
         }
+        return cheapProductCount;
+    }
 
-        // Because local variables are effectively final, you cannot modify them inside a lambda expression.
-//        products.forEach(product -> {
-//            if (product.getPrice().compareTo(priceLimit) < 0) {
-//                numberOfCheapProducts++; // Error: Variable must be effectively final
-//            }
-//        });
+    // functional interface
+    private static int getCountCheapProducts2(List<Product> products, findCheap find) {
+        int cheapProductCount = 0;
+        for (Product product : products) {
+            if (find.find(product)) {
+                cheapProductCount++;
+            }
+        }
+        return cheapProductCount;
+    }
 
-        System.out.println("There are " + numberOfCheapProducts + " cheap products");
+    // functional interface
+    private static List<Product> accumulateCheapProducts(List<Product> products, accumulateCheap find) {
+        List<Product> result = new ArrayList<Product>();
+        for (Product product : products) {
+            if (find.filter(product)) {
+                result.add(product);
+            }
+        }
+        return result;
+    }
+
+    //consumer
+    private static void accumulateCheapProductsForEach(List<Product> products, accumulateCheap interfaceInstance) {
+        List<Product> result = new ArrayList<Product>();
+        products.forEach(
+                product -> {
+                    if (interfaceInstance.filter(product)) {
+                        result.add(product);
+                    }
+                });
+
+        System.out.println();
+        products.forEach(p -> System.out.println(p));
     }
 }
