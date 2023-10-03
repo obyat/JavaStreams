@@ -14,7 +14,7 @@ import static com.pluralsight.streamslambdas.Category.*;
 
 public class ExampleData {
 
-    private static final List<Product> PRODUCTS = Arrays.asList(
+    private static final List<Product> PRODUCTS = List.of(
             new Product(FOOD, "Oranges", new BigDecimal("1.65")),
             new Product(FOOD, "Gouda cheese", new BigDecimal("6.79")),
             new Product(UTENSILS, "Plates", new BigDecimal("12.95")),

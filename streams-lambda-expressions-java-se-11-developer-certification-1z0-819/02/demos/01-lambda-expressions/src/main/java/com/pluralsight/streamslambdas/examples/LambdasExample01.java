@@ -46,7 +46,7 @@ public class LambdasExample01 {
          * The functional interface implemented by the lambda specifies the the
          * parameters types and return type
          * 
-         * no parameters
+         * no parameters 
          * () -> System.out.println("Test");
          * 
          * exactly a single parameter

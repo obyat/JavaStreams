@@ -98,6 +98,10 @@ StyleCopReport.xml
 *.svclog
 *.scc
 
+# Java files
+*.class
+target
+
 # Chutzpah Test files
 _Chutzpah*
 
@@ -109,7 +113,7 @@ ipch/
 *.opensdf
 *.sdf
 *.cachefile
-*.VC.db
+*.VC.dbF
 *.VC.VC.opendb
 
 # Visual Studio profiler
