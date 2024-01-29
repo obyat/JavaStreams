@@ -18,7 +18,7 @@ class FunctionalInterfacesExercise02Test {
     private FunctionalInterfacesExercise02 exercise = new FunctionalInterfacesExercise02();
 
     @Test
-    @DisplayName("Search by category")
+    @DisplayName("Search by category.")
     void searchByCategory() {
         Predicate<Product> predicate = exercise.createSearchPredicate(new FunctionalInterfacesExercise02.SearchCriteria(FOOD, null, null, null));
         assertThat(TestData.getProducts().stream().filter(predicate).collect(Collectors.toList()))
